@@ -7,20 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		31B0EEA92C88E83C004C3226 /* EventStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0EEA82C88E83C004C3226 /* EventStruct.swift */; };
+		31B0EEAC2C88EE67004C3226 /* formatDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0EEAB2C88EE67004C3226 /* formatDate.swift */; };
+		31B0EEAE2C88F55F004C3226 /* SafariWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0EEAD2C88F55F004C3226 /* SafariWrapper.swift */; };
+		31B0EEB02C88FF0C004C3226 /* EventItemSkeleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0EEAF2C88FF0C004C3226 /* EventItemSkeleton.swift */; };
 		31F0583B2C88AF9200C2D440 /* guayaquil_eventsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F0583A2C88AF9200C2D440 /* guayaquil_eventsApp.swift */; };
 		31F0583D2C88AF9200C2D440 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F0583C2C88AF9200C2D440 /* ContentView.swift */; };
 		31F0583F2C88AF9200C2D440 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F0583E2C88AF9200C2D440 /* Item.swift */; };
 		31F058412C88AF9400C2D440 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31F058402C88AF9400C2D440 /* Assets.xcassets */; };
 		31F058442C88AF9400C2D440 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31F058432C88AF9400C2D440 /* Preview Assets.xcassets */; };
+		31F0584C2C88D3C300C2D440 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 31F0584B2C88D3C300C2D440 /* Supabase */; };
+		31F0584F2C88DA2E00C2D440 /* EventItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F0584E2C88DA2E00C2D440 /* EventItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		31B0EEA82C88E83C004C3226 /* EventStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStruct.swift; sourceTree = "<group>"; };
+		31B0EEAB2C88EE67004C3226 /* formatDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = formatDate.swift; sourceTree = "<group>"; };
+		31B0EEAD2C88F55F004C3226 /* SafariWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWrapper.swift; sourceTree = "<group>"; };
+		31B0EEAF2C88FF0C004C3226 /* EventItemSkeleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventItemSkeleton.swift; sourceTree = "<group>"; };
 		31F058372C88AF9200C2D440 /* guayaquil events.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "guayaquil events.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		31F0583A2C88AF9200C2D440 /* guayaquil_eventsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = guayaquil_eventsApp.swift; sourceTree = "<group>"; };
 		31F0583C2C88AF9200C2D440 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		31F0583E2C88AF9200C2D440 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		31F058402C88AF9400C2D440 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		31F058432C88AF9400C2D440 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		31F0584E2C88DA2E00C2D440 /* EventItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -28,12 +39,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31F0584C2C88D3C300C2D440 /* Supabase in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		31B0EEAA2C88EE57004C3226 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				31B0EEAB2C88EE67004C3226 /* formatDate.swift */,
+				31B0EEAD2C88F55F004C3226 /* SafariWrapper.swift */,
+			);
+			path = utils;
+			sourceTree = "<group>";
+		};
 		31F0582E2C88AF9200C2D440 = {
 			isa = PBXGroup;
 			children = (
@@ -53,6 +74,8 @@
 		31F058392C88AF9200C2D440 /* guayaquil events */ = {
 			isa = PBXGroup;
 			children = (
+				31B0EEAA2C88EE57004C3226 /* utils */,
+				31F0584D2C88DA1600C2D440 /* Events */,
 				31F0583A2C88AF9200C2D440 /* guayaquil_eventsApp.swift */,
 				31F0583C2C88AF9200C2D440 /* ContentView.swift */,
 				31F0583E2C88AF9200C2D440 /* Item.swift */,
@@ -68,6 +91,16 @@
 				31F058432C88AF9400C2D440 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		31F0584D2C88DA1600C2D440 /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				31F0584E2C88DA2E00C2D440 /* EventItem.swift */,
+				31B0EEAF2C88FF0C004C3226 /* EventItemSkeleton.swift */,
+				31B0EEA82C88E83C004C3226 /* EventStruct.swift */,
+			);
+			path = Events;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -86,6 +119,9 @@
 			dependencies = (
 			);
 			name = "guayaquil events";
+			packageProductDependencies = (
+				31F0584B2C88D3C300C2D440 /* Supabase */,
+			);
 			productName = "guayaquil events";
 			productReference = 31F058372C88AF9200C2D440 /* guayaquil events.app */;
 			productType = "com.apple.product-type.application";
@@ -114,6 +150,9 @@
 				Base,
 			);
 			mainGroup = 31F0582E2C88AF9200C2D440;
+			packageReferences = (
+				31F0584A2C88D3C300C2D440 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+			);
 			productRefGroup = 31F058382C88AF9200C2D440 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -140,9 +179,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31B0EEB02C88FF0C004C3226 /* EventItemSkeleton.swift in Sources */,
 				31F0583D2C88AF9200C2D440 /* ContentView.swift in Sources */,
 				31F0583F2C88AF9200C2D440 /* Item.swift in Sources */,
+				31B0EEAC2C88EE67004C3226 /* formatDate.swift in Sources */,
 				31F0583B2C88AF9200C2D440 /* guayaquil_eventsApp.swift in Sources */,
+				31F0584F2C88DA2E00C2D440 /* EventItem.swift in Sources */,
+				31B0EEAE2C88F55F004C3226 /* SafariWrapper.swift in Sources */,
+				31B0EEA92C88E83C004C3226 /* EventStruct.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,11 +323,13 @@
 				DEVELOPMENT_TEAM = MDCX74S57Z;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Guayaquil Shows";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -308,11 +354,13 @@
 				DEVELOPMENT_TEAM = MDCX74S57Z;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Guayaquil Shows";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -348,6 +396,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		31F0584A2C88D3C300C2D440 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		31F0584B2C88D3C300C2D440 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 31F0584A2C88D3C300C2D440 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 31F0582F2C88AF9200C2D440 /* Project object */;
 }
