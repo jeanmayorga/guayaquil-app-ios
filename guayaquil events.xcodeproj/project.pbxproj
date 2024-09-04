@@ -13,7 +13,6 @@
 		31B0EEB02C88FF0C004C3226 /* EventItemSkeleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0EEAF2C88FF0C004C3226 /* EventItemSkeleton.swift */; };
 		31F0583B2C88AF9200C2D440 /* guayaquil_eventsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F0583A2C88AF9200C2D440 /* guayaquil_eventsApp.swift */; };
 		31F0583D2C88AF9200C2D440 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F0583C2C88AF9200C2D440 /* ContentView.swift */; };
-		31F0583F2C88AF9200C2D440 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F0583E2C88AF9200C2D440 /* Item.swift */; };
 		31F058412C88AF9400C2D440 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31F058402C88AF9400C2D440 /* Assets.xcassets */; };
 		31F058442C88AF9400C2D440 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31F058432C88AF9400C2D440 /* Preview Assets.xcassets */; };
 		31F0584C2C88D3C300C2D440 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 31F0584B2C88D3C300C2D440 /* Supabase */; };
@@ -28,7 +27,6 @@
 		31F058372C88AF9200C2D440 /* guayaquil events.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "guayaquil events.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		31F0583A2C88AF9200C2D440 /* guayaquil_eventsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = guayaquil_eventsApp.swift; sourceTree = "<group>"; };
 		31F0583C2C88AF9200C2D440 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		31F0583E2C88AF9200C2D440 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		31F058402C88AF9400C2D440 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		31F058432C88AF9400C2D440 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		31F0584E2C88DA2E00C2D440 /* EventItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventItem.swift; sourceTree = "<group>"; };
@@ -78,7 +76,6 @@
 				31F0584D2C88DA1600C2D440 /* Events */,
 				31F0583A2C88AF9200C2D440 /* guayaquil_eventsApp.swift */,
 				31F0583C2C88AF9200C2D440 /* ContentView.swift */,
-				31F0583E2C88AF9200C2D440 /* Item.swift */,
 				31F058402C88AF9400C2D440 /* Assets.xcassets */,
 				31F058422C88AF9400C2D440 /* Preview Content */,
 			);
@@ -181,7 +178,6 @@
 			files = (
 				31B0EEB02C88FF0C004C3226 /* EventItemSkeleton.swift in Sources */,
 				31F0583D2C88AF9200C2D440 /* ContentView.swift in Sources */,
-				31F0583F2C88AF9200C2D440 /* Item.swift in Sources */,
 				31B0EEAC2C88EE67004C3226 /* formatDate.swift in Sources */,
 				31F0583B2C88AF9200C2D440 /* guayaquil_eventsApp.swift in Sources */,
 				31F0584F2C88DA2E00C2D440 /* EventItem.swift in Sources */,
