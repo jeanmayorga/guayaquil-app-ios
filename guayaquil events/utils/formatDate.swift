@@ -24,7 +24,7 @@ func formatSingleDate(dateString: String) -> String {
     
     let outputFormatter = DateFormatter()
     
-    outputFormatter.dateFormat = "EEEE dd 'de' MMMM 'del' yyyy HH:mm"
+    outputFormatter.dateFormat = "dd 'de' MMMM 'del' yyyy HH:mm"
     
     outputFormatter.locale = Locale(identifier: "es_EC")
     

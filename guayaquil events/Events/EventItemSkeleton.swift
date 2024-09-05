@@ -57,7 +57,7 @@ struct EventItemSkeleton: View {
         }
         .blinking(duration: 0.75)
         .padding()
-        .border(width: 0.31, edges: [.bottom], color: .gray)
+        .border(width: 0.1, edges: [.bottom], color: .gray)
     }
 }
 

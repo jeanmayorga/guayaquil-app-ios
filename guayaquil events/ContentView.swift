@@ -16,6 +16,7 @@ struct ContentView: View {
     @State private var events : [Event] = []
     @State private var showSafari: Bool = false
     @State private var selectedURL: URL? = nil
+    @State private var selectedOption = "Esta semana"
     
     let client = SupabaseClient(
         supabaseURL: URL(
@@ -38,42 +39,59 @@ struct ContentView: View {
         NavigationView {
             ScrollView {
                 VStack {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(["Todos", "Hoy", "Esta semana", "Este mes"], id: \.self) { option in
+                                TabButton(
+                                    option: option,
+                                    isSelected: selectedOption == option,
+                                    action: {
+                                        selectedOption = option
+                                        fetchEvents(date: option)
+                                    }
+                                )
+                            }
+                        }
+                        .padding(.bottom)
+                    }
+                    
                     if isLoading {
-                        Text("Actualizando...")
-                            .font(.caption)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .foregroundStyle(.gray)
-                            .transition(.opacity)
-                    } else {
-                        if let lastUpdated = events.first?.last_updated {
-                            Text("Actualizado el \(formatSingleDate(dateString: lastUpdated))")
+                        HStack {
+                            Spacer()
+                            ProgressView()
+                                .font(.system(size: 16))
+                                .padding([.trailing], 5)
+                            Text("Actualizando")
                                 .font(.caption)
-                                .frame(maxWidth: .infinity, alignment: .leading)
                                 .foregroundStyle(.gray)
                                 .transition(.opacity)
+                            Spacer()
+                        }
+                    } else {
+                        if let lastUpdated = events.first?.last_updated {
+                            HStack(alignment: .center) {
+                                Spacer()
+                                Image(systemName: "checkmark.gobackward")
+                                    .foregroundColor(.gray)
+                                    .font(.system(size: 16))
+                                Text("Actualizado \(formatSingleDate(dateString: lastUpdated))")
+                                    .font(.caption)
+                                    .foregroundStyle(.gray)
+                                    .transition(.opacity)
+                                Spacer()
+                            }
                         }
                     }
                 }
                 .padding(.horizontal)
                 .animation(.smooth, value: isLoading)
                 
-                if isLoading {
-                    ForEach(0...5, id: \.self) { index in
-                        EventItemSkeleton()
-                    }
-                } else {
-                    ForEach(filteredEvents, id: \.id) { event in
-                        Button( action: { openSafariSheet(url: event.url)}) {
-                            EventItem(
-                                cover_image: event.cover_image,
-                                name: event.name,
-                                start_date: event.start_date,
-                                end_date: event.end_date,
-                                location_name: event.location_name
-                            )
-                        }
-                    }
-                }
+                
+                EventList(
+                    isLoading: isLoading,
+                    events: filteredEvents,
+                    openSafariSheet: openSafariSheet
+                )
             }
             .navigationTitle("Guayaquil")
             .searchable(text: $searchText, prompt: "Buscar shows o eventos")
@@ -92,7 +110,7 @@ struct ContentView: View {
                 }
             })
             .refreshable {
-                fetchEvents()
+                fetchEvents(date: selectedOption)
             }
         }
         .sheet(isPresented: $showSafari, onDismiss: closeSafariSheet) {
@@ -101,16 +119,50 @@ struct ContentView: View {
             }
         }
         .onAppear {
-            fetchEvents()
+            fetchEvents(date: selectedOption)
         }
     }
     
-    private func fetchEvents () {
+    private func fetchEvents (date: String) {
         Task {
             do {
                 isLoading = true
-                try await Task.sleep(for: .seconds(2))
-                let result: [Event] = try await client.from("events").select("*").order("start_date", ascending: true).execute().value
+                var query = client.from("events").select("*")
+                
+                let today = Date()
+                let calendar = Calendar.current
+                let todayString = formatDate(date: today)
+                
+                switch date {
+                case "Hoy":
+                    query = query.gte("end_date", value: todayString).lte("start_date", value: todayString)
+
+                case "Esta semana":
+                    let startOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: today))!
+                    let endOfWeek = calendar.date(byAdding: .day, value: 6, to: startOfWeek)!
+                    
+                    let startOfWeekString = formatDate(date: startOfWeek)
+                    let endOfWeekString = formatDate(date: endOfWeek)
+                    
+                    query = query.gte("end_date", value: startOfWeekString).lte("start_date", value: endOfWeekString)
+    
+                case "Este mes":
+                    let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: today))!
+                    let range = calendar.range(of: .day, in: .month, for: today)!
+                    let endOfMonth = calendar.date(byAdding: .day, value: range.count - 1, to: startOfMonth)!
+                    
+                    let startOfMonthString = formatDate(date: startOfMonth)
+                    let endOfMonthString = formatDate(date: endOfMonth)
+                    
+                    query = query.gte("end_date", value: startOfMonthString).lte("start_date", value: endOfMonthString)
+                    
+                default:
+                    break
+                }
+                
+                query = query.order("start_date", ascending: true) as! PostgrestFilterBuilder
+            
+                let result: [Event] = try await query.execute().value
                 events = result
                 isLoading = false
             } catch {
@@ -119,6 +171,12 @@ struct ContentView: View {
             }
         }
     }
+    private func formatDate(date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.string(from: date)
+    }
+    
     private func openSafariSheet(url: String) {
         if let safeUrl = URL(string: url) {
             selectedURL = safeUrl
@@ -133,4 +191,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+
 }

@@ -29,6 +29,7 @@ extension View {
     }
 }
 
+
 struct EventItem: View {
     let cover_image: String
     let name: String
@@ -37,61 +38,72 @@ struct EventItem: View {
     let location_name: String
     
     @State private var imageOpacity: Double = 0.0
+    @State private var shouldLoad: Bool = false
+    
     let secondaryColor  = Color(.init(gray: 0.8, alpha: 1.0))
+    
+    var imageSkeleton: some View {
+        secondaryColor
+            .frame(maxWidth: .infinity, minHeight: 200, maxHeight: 200)
+            .clipShape(RoundedRectangle(cornerRadius: 25))
+            .padding(.bottom, 6)
+    }
     
     var body: some View {
         VStack(alignment: .leading) {
-            AsyncImage(url: URL(string: cover_image)) { phase in
-                switch phase {
-                case .empty:
-                    secondaryColor
-                        .frame(maxWidth: .infinity, minHeight: 200, maxHeight: 200)
-                        .clipShape(RoundedRectangle(cornerRadius: 25))
-                        .padding(.bottom, 8)
-                        .blinking(duration: 0.75)
-                case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFill()
-                        .frame(maxWidth: .infinity, minHeight: 200, maxHeight: 200)
-                        .clipShape(RoundedRectangle(cornerRadius: 25))
-                        .opacity(imageOpacity)
-                        .onAppear {
-                            withAnimation(.easeInOut(duration: 0.5)) {
-                                imageOpacity = 1.0
-                            }
+            Group {
+                if shouldLoad {
+                    AsyncImage(url: URL(string: cover_image)) { phase in
+                        switch phase {
+                        case .empty:
+                            imageSkeleton
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .scaledToFill()
+                                .frame(maxWidth: .infinity, minHeight: 200, maxHeight: 200)
+                                .clipShape(RoundedRectangle(cornerRadius: 25))
+                                .opacity(imageOpacity)
+                                .onAppear {
+                                    print("Image loaded successfully \(name)")
+                                    withAnimation(.easeInOut(duration: 0.5)) {
+                                        imageOpacity = 1.0
+                                    }
+                                }
+                        case .failure:
+                            imageSkeleton
+                        @unknown default:
+                            imageSkeleton
                         }
-                    
-                case .failure:
-                    Rectangle()
-                        .fill(Color.gray)
-                @unknown default:
-                    Rectangle()
-                        .fill(Color.gray)
+                    }
+                    .frame(maxWidth: .infinity, minHeight: 200, maxHeight: 200)
+                    .clipShape(RoundedRectangle(cornerRadius: 25))
+                    .padding(.bottom, 6)
+                } else {
+                    imageSkeleton
                 }
             }
-            .frame(maxWidth: .infinity, minHeight: 200, maxHeight: 200)
-            .clipShape(RoundedRectangle(cornerRadius: 25))
-            .padding(.bottom, 8)
-            
+            .onAppear {
+                shouldLoad = true
+            }
             HStack {
                 Image(systemName: "calendar")
-                    .foregroundColor(.purple)
+                    .foregroundColor(.cyan)
                 Text(formatDateRange(from: start_date, to: end_date))
                     .font(.caption)
                     .bold()
-                    .foregroundStyle(.purple)
+                    .foregroundStyle(.cyan)
             }
             .multilineTextAlignment(.leading)
 
             Text(name)
                 .font(.title2)
                 .multilineTextAlignment(.leading)
-                .foregroundStyle(.black)
+                .foregroundStyle(.primary)
             Text(location_name)
                 .font(.subheadline)
                 .multilineTextAlignment(.leading)
-                .foregroundStyle(.gray)
+                .foregroundStyle(.secondary)
         }
         .padding()
         .border(width: 0.1, edges: [.bottom], color: .gray)
