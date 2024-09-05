@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import SkeletonUI
+
 
 struct EdgeBorder: Shape {
     var width: CGFloat
@@ -88,12 +90,13 @@ struct EventItem: View {
             }
             HStack {
                 Image(systemName: "calendar")
-                    .foregroundColor(.cyan)
+                    .foregroundStyle(.accent)
                 Text(formatDateRange(from: start_date, to: end_date))
                     .font(.caption)
                     .bold()
-                    .foregroundStyle(.cyan)
+                    .foregroundStyle(.accent)
             }
+            .padding([.bottom], 1)
             .multilineTextAlignment(.leading)
 
             Text(name)
@@ -106,7 +109,7 @@ struct EventItem: View {
                 .foregroundStyle(.secondary)
         }
         .padding()
-        .border(width: 0.1, edges: [.bottom], color: .gray)
+        .border(width: 0.1, edges: [.bottom], color: .gray).skeleton(with: true)
     }
 }
 

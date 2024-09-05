@@ -46,8 +46,10 @@ struct ContentView: View {
                                     option: option,
                                     isSelected: selectedOption == option,
                                     action: {
-                                        selectedOption = option
-                                        fetchEvents(date: option)
+                                        if selectedOption != option {
+                                            selectedOption = option
+                                            fetchEvents(date: option)
+                                        }
                                     }
                                 )
                             }

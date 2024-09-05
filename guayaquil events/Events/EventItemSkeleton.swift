@@ -31,28 +31,28 @@ extension View {
 struct EventItemSkeleton: View {
     let primaryColor = Color(.init(gray: 0.6, alpha: 1.0))
     let secondaryColor  = Color(.init(gray: 0.8, alpha: 1.0))
-    let purpleColor  = Color(.purple)
     
     var body: some View {
         VStack(alignment: .leading) {
             secondaryColor
                 .frame(maxWidth: .infinity, minHeight: 200, maxHeight: 200)
                 .clipShape(RoundedRectangle(cornerRadius: 25))
-                .padding(.bottom, 8)
+                .padding(.bottom, 9)
             
             HStack {
-                Image(systemName: "calendar")
-                    .foregroundColor(.gray)
-                secondaryColor
+                Image(systemName: "calendar").foregroundStyle(.accent)
+                    .opacity(0.7)
+                Color(.accent)
                     .frame(width: 94, height: 9)
                     .clipShape(RoundedRectangle(cornerRadius: 25))
+                    .opacity(0.3)
             }
             .multilineTextAlignment(.leading)
             .padding([.bottom], 1)
             
             primaryColor.frame(width: 190, height: 22).clipShape(RoundedRectangle(cornerRadius: 25))
             
-            secondaryColor.frame(width: 100, height: 12).clipShape(RoundedRectangle(cornerRadius: 25))
+            secondaryColor.frame(width: 100, height: 14).clipShape(RoundedRectangle(cornerRadius: 25))
             
         }
         .blinking(duration: 0.75)
