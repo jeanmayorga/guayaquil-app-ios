@@ -6,31 +6,65 @@
 //
 
 import SwiftUI
+import SwiftData
 import Supabase
+
+
 
 struct ContentView: View {
     @Environment(\.openURL) var openURL
-    
+    @Environment(\.modelContext) private var modelContext
+
+
     @State private var searchText = ""
-    @State private var isLoading: Bool = true
-    @State private var events : [Event] = []
-    @State private var showSafari: Bool = false
-    @State private var selectedURL: URL? = nil
+    @State private var isLoading: Bool = false
     @State private var selectedOption = "Esta semana"
     
-    let client = SupabaseClient(
-        supabaseURL: URL(
-            string: "https://amsjunwtalmacvrzwmvz.supabase.co")!,
-        supabaseKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFtc2p1bnd0YWxtYWN2cnp3bXZ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQ5NTQyOTAsImV4cCI6MjA0MDUzMDI5MH0.XXdjp1xFHHXXIqBkAFvxnJgKbfM1yuJMUX816GbmWKA"
-    )
-    
-    var filteredEvents: [Event] {
+    @Query(sort: \Item.startDate) private var items: [Item]
+
+    var filteredItems: [Item] {
+        let today = Date()
+        let calendar = Calendar.current
+        let todayString = formatDate(date: today)
+        
+        let dateFilteredItems: [Item] = {
+            switch selectedOption {
+            case "Hoy":
+                return items.filter { item in
+                    item.endDate >= todayString && item.startDate <= todayString
+                }
+            case "Esta semana":
+                let startOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: today))!
+                let endOfWeek = calendar.date(byAdding: .day, value: 6, to: startOfWeek)!
+                return items.filter { item in
+                    if let itemStartDate = parseDate(from: item.startDate),
+                       let itemEndDate = parseDate(from: item.endDate) {
+                        return itemEndDate >= startOfWeek && itemStartDate <= endOfWeek
+                    }
+                    return false
+                }
+
+            case "Este mes":
+                let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: today))!
+                let range = calendar.range(of: .day, in: .month, for: today)!
+                let endOfMonth = calendar.date(byAdding: .day, value: range.count - 1, to: startOfMonth)!
+                return items.filter { item in
+                    if let itemStartDate = parseDate(from: item.startDate),
+                       let itemEndDate = parseDate(from: item.endDate) {
+                        return itemEndDate >= startOfMonth && itemStartDate <= endOfMonth
+                    }
+                    return false
+                }
+            default:
+                return items
+            }
+        }()
+        
         if searchText.isEmpty {
-            return events
+            return dateFilteredItems
         } else {
-            return events.filter { event in
-                event.name.lowercased().contains(searchText.lowercased()) ||
-                event.location_name.lowercased().contains(searchText.lowercased())
+            return dateFilteredItems.filter { item in
+                item.name.localizedStandardContains(searchText) || item.locationName.localizedStandardContains(searchText)
             }
         }
     }
@@ -48,7 +82,6 @@ struct ContentView: View {
                                     action: {
                                         if selectedOption != option {
                                             selectedOption = option
-                                            fetchEvents(date: option)
                                         }
                                     }
                                 )
@@ -70,7 +103,7 @@ struct ContentView: View {
                             Spacer()
                         }
                     } else {
-                        if let lastUpdated = events.first?.last_updated {
+                        if let lastUpdated = items.first?.lastUpdated {
                             HStack(alignment: .center) {
                                 Spacer()
                                 Image(systemName: "checkmark.gobackward")
@@ -88,12 +121,11 @@ struct ContentView: View {
                 .padding(.horizontal)
                 .animation(.smooth, value: isLoading)
                 
-                
                 EventList(
                     isLoading: isLoading,
-                    events: filteredEvents,
-                    openSafariSheet: openSafariSheet
+                    events: filteredItems
                 )
+    
             }
             .navigationTitle("Guayaquil")
             .searchable(text: $searchText, prompt: "Buscar shows o eventos")
@@ -103,7 +135,12 @@ struct ContentView: View {
                         action: { openURL(URL(string: "https://www.guayaquil.app")!)}
                     ) {
                         Label("Abrir en Safari", systemImage: "ellipsis.circle")
-                        Text("Sitio web de shows")
+                        Text("Sitio web de Guayaquil")
+                    }
+                    Button(
+                        action: { refreshEvents() }
+                    ) {
+                        Label("Refrescar", systemImage: "arrow.clockwise")
                     }
                 }
                 label: {
@@ -111,66 +148,68 @@ struct ContentView: View {
                         .foregroundColor(.gray)
                 }
             })
-            .refreshable {
-                fetchEvents(date: selectedOption)
-            }
         }
-        .sheet(isPresented: $showSafari, onDismiss: closeSafariSheet) {
-            if let url = selectedURL {
-                SFSafariViewWrapper(url: url)
-            }
+        .refreshable {
+            refreshEvents()
         }
         .onAppear {
-            fetchEvents(date: selectedOption)
+            loadShows()
         }
     }
     
-    private func fetchEvents (date: String) {
+    private func refreshEvents () {
         Task {
-            do {
-                isLoading = true
-                var query = client.from("events").select("*")
-                
-                let today = Date()
-                let calendar = Calendar.current
-                let todayString = formatDate(date: today)
-                
-                switch date {
-                case "Hoy":
-                    query = query.gte("end_date", value: todayString).lte("start_date", value: todayString)
+            isLoading = true
+            removeEvents()
+            try? await Task.sleep(nanoseconds: 0_500_000_000)
+            loadShows()
+        }
+    }
 
-                case "Esta semana":
-                    let startOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: today))!
-                    let endOfWeek = calendar.date(byAdding: .day, value: 6, to: startOfWeek)!
-                    
-                    let startOfWeekString = formatDate(date: startOfWeek)
-                    let endOfWeekString = formatDate(date: endOfWeek)
-                    
-                    query = query.gte("end_date", value: startOfWeekString).lte("start_date", value: endOfWeekString)
-    
-                case "Este mes":
-                    let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: today))!
-                    let range = calendar.range(of: .day, in: .month, for: today)!
-                    let endOfMonth = calendar.date(byAdding: .day, value: range.count - 1, to: startOfMonth)!
-                    
-                    let startOfMonthString = formatDate(date: startOfMonth)
-                    let endOfMonthString = formatDate(date: endOfMonth)
-                    
-                    query = query.gte("end_date", value: startOfMonthString).lte("start_date", value: endOfMonthString)
-                    
-                default:
-                    break
-                }
-                
-                query = query.order("start_date", ascending: true) as! PostgrestFilterBuilder
+    private func removeEvents () {
+        for event in items {
+            modelContext.delete(event)
+        }
+    }
+
+    private func saveEvents (newEvents: [Event]) {
+        for newEvent in newEvents {
+            let newShow = Item(
+                id: newEvent.id,
+                coverImage: newEvent.cover_image,
+                name: newEvent.name,
+                slug: newEvent.slug,
+                startDate: newEvent.start_date,
+                endDate: newEvent.end_date,
+                locationName: newEvent.location_name,
+                url: newEvent.url,
+                lastUpdated: newEvent.last_updated
+            )
+            modelContext.insert(newShow)
+        }
+        do {
+            try modelContext.save()
+        } catch {
+            print("cannot save data")
+        }
+        print("\(newEvents.count) new events saved")
+    }
+
+    private func loadShows () {
+        Task {
+            let showsCount = items.count
+            print("shows count: \(showsCount)")
             
-                let result: [Event] = try await query.execute().value
-                events = result
-                isLoading = false
-            } catch {
-                print("Error fetching events: \(error)")
-                isLoading = false
+            if showsCount == 0 {
+                isLoading = true
+                let newEvents = await fetchAllEvents()
+                saveEvents(newEvents: newEvents)
+                print("restoring new data to cache")
+            } else {
+                print("get data from cache data")
             }
+
+            isLoading = false
         }
     }
     private func formatDate(date: Date) -> String {
@@ -178,20 +217,19 @@ struct ContentView: View {
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter.string(from: date)
     }
-    
-    private func openSafariSheet(url: String) {
-        if let safeUrl = URL(string: url) {
-            selectedURL = safeUrl
-            showSafari = true
-        }
-    }
-    private func closeSafariSheet() {
-        selectedURL = nil
-        showSafari = false
+    func parseDate(from dateString: String) -> Date? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd" // Ajusta este formato según cómo estén almacenadas tus fechas
+        return formatter.date(from: dateString)
     }
 }
 
 #Preview {
     ContentView()
-
+        .modelContainer(for: Item.self, inMemory: true)
 }
+
+
+/// TODO:
+/// change the dates fortmas in order to fetch automatically if the data is past
+///

@@ -7,12 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		31B0EEA92C88E83C004C3226 /* EventStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0EEA82C88E83C004C3226 /* EventStruct.swift */; };
 		31B0EEAC2C88EE67004C3226 /* formatDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0EEAB2C88EE67004C3226 /* formatDate.swift */; };
 		31B0EEAE2C88F55F004C3226 /* SafariWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0EEAD2C88F55F004C3226 /* SafariWrapper.swift */; };
 		31B0EEB02C88FF0C004C3226 /* EventItemSkeleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0EEAF2C88FF0C004C3226 /* EventItemSkeleton.swift */; };
 		31B0EEB92C89804F004C3226 /* TabButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0EEB82C89804F004C3226 /* TabButton.swift */; };
 		31B0EEBB2C89813D004C3226 /* EventList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0EEBA2C89813D004C3226 /* EventList.swift */; };
+		31B0EEDE2C8A0C14004C3226 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0EEDD2C8A0C14004C3226 /* Event.swift */; };
+		31B0EEE02C8A0E3F004C3226 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0EEDF2C8A0E3F004C3226 /* Service.swift */; };
 		31F0583B2C88AF9200C2D440 /* guayaquil_eventsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F0583A2C88AF9200C2D440 /* guayaquil_eventsApp.swift */; };
 		31F0583D2C88AF9200C2D440 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F0583C2C88AF9200C2D440 /* ContentView.swift */; };
 		31F058412C88AF9400C2D440 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31F058402C88AF9400C2D440 /* Assets.xcassets */; };
@@ -22,12 +23,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		31B0EEA82C88E83C004C3226 /* EventStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStruct.swift; sourceTree = "<group>"; };
 		31B0EEAB2C88EE67004C3226 /* formatDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = formatDate.swift; sourceTree = "<group>"; };
 		31B0EEAD2C88F55F004C3226 /* SafariWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWrapper.swift; sourceTree = "<group>"; };
 		31B0EEAF2C88FF0C004C3226 /* EventItemSkeleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventItemSkeleton.swift; sourceTree = "<group>"; };
 		31B0EEB82C89804F004C3226 /* TabButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabButton.swift; sourceTree = "<group>"; };
 		31B0EEBA2C89813D004C3226 /* EventList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventList.swift; sourceTree = "<group>"; };
+		31B0EEDD2C8A0C14004C3226 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		31B0EEDF2C8A0E3F004C3226 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		31F058372C88AF9200C2D440 /* guayaquil events.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "guayaquil events.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		31F0583A2C88AF9200C2D440 /* guayaquil_eventsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = guayaquil_eventsApp.swift; sourceTree = "<group>"; };
 		31F0583C2C88AF9200C2D440 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -106,10 +108,11 @@
 		31F0584D2C88DA1600C2D440 /* Events */ = {
 			isa = PBXGroup;
 			children = (
+				31B0EEDF2C8A0E3F004C3226 /* Service.swift */,
 				31F0584E2C88DA2E00C2D440 /* EventItem.swift */,
 				31B0EEAF2C88FF0C004C3226 /* EventItemSkeleton.swift */,
-				31B0EEA82C88E83C004C3226 /* EventStruct.swift */,
 				31B0EEBA2C89813D004C3226 /* EventList.swift */,
+				31B0EEDD2C8A0C14004C3226 /* Event.swift */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -190,15 +193,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31B0EEDE2C8A0C14004C3226 /* Event.swift in Sources */,
 				31B0EEB92C89804F004C3226 /* TabButton.swift in Sources */,
 				31B0EEB02C88FF0C004C3226 /* EventItemSkeleton.swift in Sources */,
 				31F0583D2C88AF9200C2D440 /* ContentView.swift in Sources */,
+				31B0EEE02C8A0E3F004C3226 /* Service.swift in Sources */,
 				31B0EEAC2C88EE67004C3226 /* formatDate.swift in Sources */,
 				31F0583B2C88AF9200C2D440 /* guayaquil_eventsApp.swift in Sources */,
 				31F0584F2C88DA2E00C2D440 /* EventItem.swift in Sources */,
 				31B0EEAE2C88F55F004C3226 /* SafariWrapper.swift in Sources */,
 				31B0EEBB2C89813D004C3226 /* EventList.swift in Sources */,
-				31B0EEA92C88E83C004C3226 /* EventStruct.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

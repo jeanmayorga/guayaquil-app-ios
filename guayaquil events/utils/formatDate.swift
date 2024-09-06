@@ -7,7 +7,13 @@
 
 import Foundation
 
-func formatSingleDate(dateString: String) -> String {
+func formatDate(date: Date) -> String {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd"
+    return formatter.string(from: date)
+}
+
+func formatSingleDate(dateString: String, format: String = "dd 'de' MMMM 'del' yyyy HH:mm") -> String {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd"
     
@@ -24,7 +30,7 @@ func formatSingleDate(dateString: String) -> String {
     
     let outputFormatter = DateFormatter()
     
-    outputFormatter.dateFormat = "dd 'de' MMMM 'del' yyyy HH:mm"
+    outputFormatter.dateFormat = format
     
     outputFormatter.locale = Locale(identifier: "es_EC")
     
